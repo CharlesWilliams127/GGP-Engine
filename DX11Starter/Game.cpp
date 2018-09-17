@@ -228,11 +228,11 @@ void Game::Update(float deltaTime, float totalTime)
 {
 
 	// Move a single entity
-	entities[0]->Move(0.00005f, 0.00005f, 0);
-	entities[1]->Move(-0.00005f, 0.00005f, 0);
-	entities[2]->Move(0.00005f, -0.00005f, 0);
-	entities[3]->Move(-0.00005f, -0.00005f, 0);
-	entities[4]->Move(0.00005f, 0.00005f, 0);
+	entities[0]->Move(0.00005f, 0.00005f, 0, 0, 0, 0);
+	entities[1]->Move(-0.00005f, 0.00005f, 0, 0, 0, 0);
+	entities[2]->Move(0.00005f, -0.00005f, 0, 0, 0, 0);
+	entities[3]->Move(-0.00005f, -0.00005f, 0, 0, 0, 0);
+	entities[4]->Move(0.00005f, 0.00005f, 0, 0, 0, 0.5 * totalTime);
 
 	// Quit if the escape key is pressed
 	if (GetAsyncKeyState(VK_ESCAPE))

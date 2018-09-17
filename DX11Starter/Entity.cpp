@@ -64,15 +64,21 @@ void Entity::SetScale(XMFLOAT3 value)
 
 // Movement
 
-void Entity::Move(float x, float y, float z)
+void Entity::Move(float translateX, float translateY, float translateZ, float rotX, float rotY, float rotZ)
 {
-	position.x += x;
-	position.y += y;
-	position.z += z;
+	position.x += translateX;
+	position.y += translateY;
+	position.z += translateZ;
 
 	XMMATRIX translate = XMMatrixTranslation(position.x, position.y, position.z);
 
-	XMStoreFloat4x4(&worldMatrix, XMMatrixTranspose(translate));
+	XMMATRIX rotationX = XMMatrixRotationX(rotX);
+	XMMATRIX rotationY = XMMatrixRotationY(rotY);
+	XMMATRIX rotationZ = XMMatrixRotationZ(rotZ);
+
+	XMMATRIX rotation = rotationX * rotationY * rotationZ;
+
+	XMStoreFloat4x4(&worldMatrix, XMMatrixTranspose(translate * rotation));
 }
 
 // Drawing

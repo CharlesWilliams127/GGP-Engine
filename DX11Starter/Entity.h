@@ -24,10 +24,13 @@ public:
 	// Movement
 
 	/// Will move the entity relative to the values given
-	/// @param x: Amount to translate in the X direction
-	/// @param y: Amount to translate in the Y direction
-	/// @param z: Amount to translate in the Z direction
-	void Move(float x, float y, float z);
+	/// @param translateX: Amount to translate in the X direction
+	/// @param translateY: Amount to translate in the Y direction
+	/// @param translateZ: Amount to translate in the Z direction
+	/// @param rotX: Amount to rotate in the X direction
+	/// @param rotY: Amount to rotate in the Y direction
+	/// @param rotZ: Amount to rotate in the Z direction
+	void Move(float translateX, float translateY, float translateZ, float rotX, float rotY, float rotZ);
 
 	// Drawing
 
