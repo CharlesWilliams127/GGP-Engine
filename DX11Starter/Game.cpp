@@ -226,13 +226,12 @@ void Game::OnResize()
 // --------------------------------------------------------
 void Game::Update(float deltaTime, float totalTime)
 {
-
-	// Move a single entity
-	entities[0]->Move(0.00005f, 0.00005f, 0, 0, 0, 0);
+	// Move all entities individually
+	entities[0]->Move(0.00005f, 0.00005f, 0, 0, 0, 0.5f * -totalTime);
 	entities[1]->Move(-0.00005f, 0.00005f, 0, 0, 0, 0);
-	entities[2]->Move(0.00005f, -0.00005f, 0, 0, 0, 0);
+	entities[2]->Move(0.00005f, -0.00005f, 0, 0, 0, 0.25f * totalTime);
 	entities[3]->Move(-0.00005f, -0.00005f, 0, 0, 0, 0);
-	entities[4]->Move(0.00005f, 0.00005f, 0, 0, 0, 0.5 * totalTime);
+	entities[4]->Move(0.00005f, 0.00005f, 0, 0, 0, 0.5f * totalTime);
 
 	// Quit if the escape key is pressed
 	if (GetAsyncKeyState(VK_ESCAPE))
@@ -283,47 +282,6 @@ void Game::Draw(float deltaTime, float totalTime)
 
 		entities[i]->Draw(context);
 	}
-
-#pragma region CodeReplacedInEntity
-	// Set buffers in the input assembler
-	//  - Do this ONCE PER OBJECT you're drawing, since each object might
-	//    have different geometry.
-	/*UINT stride = sizeof(Vertex);
-	UINT offset = 0;*/
-	//context->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
-	//context->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
-	//ID3D11Buffer * triBuffer = triangle->GetVertexBuffer();
-	//context->IASetVertexBuffers(0, 1, &triBuffer, &stride, &offset);
-	//context->IASetIndexBuffer(triangle->GetIndexBuffer(), DXGI_FORMAT_R32_UINT, 0);
-
-	// Finally do the actual drawing
-	//  - Do this ONCE PER OBJECT you intend to draw
-	//  - This will use all of the currently set DirectX "stuff" (shaders, buffers, etc)
-	//  - DrawIndexed() uses the currently set INDEX BUFFER to look up corresponding
-	//     vertices in the currently set VERTEX BUFFER
-	//context->DrawIndexed(
-	//	triangle->GetIndexCount(),     // The number of indices to use (we could draw a subset if we wanted)
-	//	0,     // Offset to the first index we want to use
-	//	0);    // Offset to add to each index when looking up vertices
-
-	//ID3D11Buffer * squareBuffer = square->GetVertexBuffer();
-	//context->IASetVertexBuffers(0, 1, &squareBuffer, &stride, &offset);
-	//context->IASetIndexBuffer(square->GetIndexBuffer(), DXGI_FORMAT_R32_UINT, 0);
-
-	//context->DrawIndexed(
-	//	square->GetIndexCount(),     // The number of indices to use (we could draw a subset if we wanted)
-	//	0,     // Offset to the first index we want to use
-	//	0);    // Offset to add to each index when looking up vertices
-
-	//ID3D11Buffer * pentBuffer = pentagon->GetVertexBuffer();
-	//context->IASetVertexBuffers(0, 1, &pentBuffer, &stride, &offset);
-	//context->IASetIndexBuffer(pentagon->GetIndexBuffer(), DXGI_FORMAT_R32_UINT, 0);
-
-	//context->DrawIndexed(
-	//	pentagon->GetIndexCount(),     // The number of indices to use (we could draw a subset if we wanted)
-	//	0,     // Offset to the first index we want to use
-	//	0);    // Offset to add to each index when looking 
-#pragma endregion
 
 	// Present the back buffer to the user
 	//  - Puts the final frame we're drawing into the window so the user can see it
