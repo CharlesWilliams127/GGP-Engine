@@ -4,6 +4,7 @@
 #include "SimpleShader.h"
 #include "Mesh.h"
 #include "Entity.h"
+#include "Camera.h"
 #include <DirectXMath.h>
 
 class Game 
@@ -57,5 +58,8 @@ private:
 
 	// Vector to store various game entities
 	std::vector<Entity *> entities;
+
+	// Simple camera
+	Camera * camera;
 };
 

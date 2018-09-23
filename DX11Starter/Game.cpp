@@ -66,6 +66,9 @@ Game::~Game()
 		delete(*i);
 	}
 	entities.clear();
+
+	// Free camera
+	delete camera;
 }
 
 // --------------------------------------------------------
@@ -87,6 +90,9 @@ void Game::Init()
 	entities.push_back(new Entity(square, worldMatrix, XMFLOAT3(), XMFLOAT3(), XMFLOAT3()));
 	entities.push_back(new Entity(square, worldMatrix, XMFLOAT3(), XMFLOAT3(), XMFLOAT3()));
 	entities.push_back(new Entity(pentagon, worldMatrix, XMFLOAT3(), XMFLOAT3(), XMFLOAT3()));
+
+	// Create camera
+	camera = new Camera(XMFLOAT3(0, 0, -5), XMFLOAT3(0, 0, 1), viewMatrix);
 
 	// Tell the input assembler stage of the pipeline what kind of
 	// geometric primitives (points, lines or triangles) we want to draw.  
@@ -233,6 +239,9 @@ void Game::Update(float deltaTime, float totalTime)
 	entities[3]->Move(-0.00005f, -0.00005f, 0, 0, 0, 0);
 	entities[4]->Move(0.00005f, 0.00005f, 0, 0, 0, 0.5f * totalTime);
 
+	// Update camera
+	camera->Update(deltaTime);
+
 	// Quit if the escape key is pressed
 	if (GetAsyncKeyState(VK_ESCAPE))
 		Quit();
@@ -265,7 +274,7 @@ void Game::Draw(float deltaTime, float totalTime)
 		//    and then copying that entire buffer to the GPU.  
 		//  - The "SimpleShader" class handles all of that for you.
 		vertexShader->SetMatrix4x4("world", entities[i]->GetWorldMatrix());
-		vertexShader->SetMatrix4x4("view", viewMatrix);
+		vertexShader->SetMatrix4x4("view", camera->GetViewMatrix());
 		vertexShader->SetMatrix4x4("projection", projectionMatrix);
 
 		// Once you've set all of the data you care to change for
