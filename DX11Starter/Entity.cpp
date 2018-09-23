@@ -3,10 +3,11 @@
 // For the DirectX Math library
 using namespace DirectX;
 
-Entity::Entity(Mesh * _mesh, XMFLOAT4X4 _matrix, XMFLOAT3 _pos, XMFLOAT3 _rot, XMFLOAT3 _scale)
+Entity::Entity(Mesh * _mesh, Material * _material, XMFLOAT4X4 _matrix, XMFLOAT3 _pos, XMFLOAT3 _rot, XMFLOAT3 _scale)
 {
 	// Assign member variables
 	mesh = _mesh;
+	material = _material;
 	worldMatrix = _matrix;
 	position = _pos;
 	rotation = _rot;
@@ -104,4 +105,28 @@ void Entity::Draw(ID3D11DeviceContext * context)
 		mesh->GetIndexCount(),     // The number of indices to use (we could draw a subset if we wanted)
 		0,     // Offset to the first index we want to use
 		0);    // Offset to add to each index when looking up vertices
+}
+
+void Entity::PrepareMaterial(XMFLOAT4X4 viewMatrix, XMFLOAT4X4 projectionMatrix)
+{
+	// Send data to shader variables
+	//  - Do this ONCE PER OBJECT you're drawing
+	//  - This is actually a complex process of copying data to a local buffer
+	//    and then copying that entire buffer to the GPU.  
+	//  - The "SimpleShader" class handles all of that for you.
+	material->GetVertexShader()->SetMatrix4x4("world", worldMatrix);
+	material->GetVertexShader()->SetMatrix4x4("view", viewMatrix);
+	material->GetVertexShader()->SetMatrix4x4("projection", projectionMatrix);
+
+	// Once you've set all of the data you care to change for
+	// the next draw call, you need to actually send it to the GPU
+	//  - If you skip this, the "SetMatrix" calls above won't make it to the GPU!
+	material->GetVertexShader()->CopyAllBufferData();
+
+	// Set the vertex and pixel shaders to use for the next Draw() command
+	//  - These don't technically need to be set every frame...YET
+	//  - Once you start applying different shaders to different objects,
+	//    you'll need to swap the current shaders before each draw
+	material->GetVertexShader()->SetShader();
+	material->GetPixelShader()->SetShader();
 }

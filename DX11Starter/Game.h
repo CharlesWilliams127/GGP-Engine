@@ -61,5 +61,8 @@ private:
 
 	// Simple camera
 	Camera * camera;
+
+	// Material
+	Material * material;
 };
 

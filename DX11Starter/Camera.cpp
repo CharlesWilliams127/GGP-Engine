@@ -84,10 +84,12 @@ void Camera::UpdateProjectionMatrix(float width, float height)
 
 void Camera::RotateY(float amount)
 {
+	(amount > 100) ? amount = 100 : (amount < -100) ? amount = -100 : amount = amount;
 	yRot += amount * rotScale;
 }
 
 void Camera::RotateX(float amount)
 {
+	(amount > 100) ? amount = 100 : (amount < -100) ? amount = -100 : amount = amount;
 	xRot += amount * rotScale;
 }

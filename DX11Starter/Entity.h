@@ -1,12 +1,13 @@
 #pragma once
 #include "DXCore.h"
 #include "Mesh.h"
+#include "Material.h"
 #include <DirectXMath.h>
 
 class Entity
 {
 public:
-	Entity(Mesh * _mesh, DirectX::XMFLOAT4X4 _matrix, DirectX::XMFLOAT3 _pos, DirectX::XMFLOAT3 _rot, DirectX::XMFLOAT3 _scale);
+	Entity(Mesh * _mesh, Material * _material, DirectX::XMFLOAT4X4 _matrix, DirectX::XMFLOAT3 _pos, DirectX::XMFLOAT3 _rot, DirectX::XMFLOAT3 _scale);
 	~Entity();
 
 	// Getters
@@ -40,6 +41,11 @@ public:
 	/// used for drawing
 	void Draw(ID3D11DeviceContext * context);
 
+	/// Responsible for setting up the shaders prior to drawing
+	/// @param viewMatrix: the camera's view matrix
+	/// @param projectionMatrix: the camera's projection matrix
+	void PrepareMaterial(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectionMatrix);
+
 private:
 	// Transform data
 	DirectX::XMFLOAT4X4 worldMatrix;
@@ -49,5 +55,6 @@ private:
 
 	// Mesh data
 	Mesh * mesh;
+	Material * material;
 };
 

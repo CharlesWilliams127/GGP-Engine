@@ -69,6 +69,9 @@ Game::~Game()
 
 	// Free camera
 	delete camera;
+
+	// Free material
+	delete material;
 }
 
 // --------------------------------------------------------
@@ -84,19 +87,25 @@ void Game::Init()
 	CreateMatrices();
 	CreateBasicGeometry();
 
+	// Create material
+	material = new Material(pixelShader, vertexShader);
+
 	// Create game entities
-	entities.push_back(new Entity(triangle, worldMatrix, XMFLOAT3(), XMFLOAT3(), XMFLOAT3()));
-	entities.push_back(new Entity(triangle, worldMatrix, XMFLOAT3(), XMFLOAT3(), XMFLOAT3()));
-	entities.push_back(new Entity(square, worldMatrix, XMFLOAT3(), XMFLOAT3(), XMFLOAT3()));
-	entities.push_back(new Entity(square, worldMatrix, XMFLOAT3(), XMFLOAT3(), XMFLOAT3()));
-	entities.push_back(new Entity(pentagon, worldMatrix, XMFLOAT3(), XMFLOAT3(), XMFLOAT3()));
+	entities.push_back(new Entity(triangle, material, worldMatrix, XMFLOAT3(), XMFLOAT3(), XMFLOAT3()));
+	entities.push_back(new Entity(triangle, material, worldMatrix, XMFLOAT3(), XMFLOAT3(), XMFLOAT3()));
+	entities.push_back(new Entity(square, material, worldMatrix, XMFLOAT3(), XMFLOAT3(), XMFLOAT3()));
+	entities.push_back(new Entity(square, material, worldMatrix, XMFLOAT3(), XMFLOAT3(), XMFLOAT3()));
+	entities.push_back(new Entity(pentagon, material, worldMatrix, XMFLOAT3(), XMFLOAT3(), XMFLOAT3()));
 
 	// Create camera
 	camera = new Camera(XMFLOAT3(0, 0, -5), XMFLOAT3(0, 0, 1), viewMatrix);
 
+	// Set up initial projection matrix
+	camera->UpdateProjectionMatrix(width, height);
+
 	// initialize mouse movement
-	prevMousePos.x = 0;
-	prevMousePos.y = 0;
+	prevMousePos.x = width / 2;
+	prevMousePos.y = height / 2;
 
 	// Tell the input assembler stage of the pipeline what kind of
 	// geometric primitives (points, lines or triangles) we want to draw.  
@@ -223,12 +232,7 @@ void Game::OnResize()
 	DXCore::OnResize();
 
 	// Update our projection matrix since the window size changed
-	XMMATRIX P = XMMatrixPerspectiveFovLH(
-		0.25f * 3.1415926535f,	// Field of View Angle
-		(float)width / height,	// Aspect ratio
-		0.1f,				  	// Near clip plane distance
-		100.0f);			  	// Far clip plane distance
-	XMStoreFloat4x4(&projectionMatrix, XMMatrixTranspose(P)); // Transpose for HLSL!
+	camera->UpdateProjectionMatrix(width, height);
 }
 
 // --------------------------------------------------------
@@ -272,26 +276,7 @@ void Game::Draw(float deltaTime, float totalTime)
 	int end = entities.size();
 	for (int i = 0; i < end; i++) 
 	{
-		// Send data to shader variables
-		//  - Do this ONCE PER OBJECT you're drawing
-		//  - This is actually a complex process of copying data to a local buffer
-		//    and then copying that entire buffer to the GPU.  
-		//  - The "SimpleShader" class handles all of that for you.
-		vertexShader->SetMatrix4x4("world", entities[i]->GetWorldMatrix());
-		vertexShader->SetMatrix4x4("view", camera->GetViewMatrix());
-		vertexShader->SetMatrix4x4("projection", projectionMatrix);
-
-		// Once you've set all of the data you care to change for
-		// the next draw call, you need to actually send it to the GPU
-		//  - If you skip this, the "SetMatrix" calls above won't make it to the GPU!
-		vertexShader->CopyAllBufferData();
-
-		// Set the vertex and pixel shaders to use for the next Draw() command
-		//  - These don't technically need to be set every frame...YET
-		//  - Once you start applying different shaders to different objects,
-		//    you'll need to swap the current shaders before each draw
-		vertexShader->SetShader();
-		pixelShader->SetShader();
+		entities[i]->PrepareMaterial(camera->GetViewMatrix(), camera->GetProjectionMatrix());
 
 		entities[i]->Draw(context);
 	}
