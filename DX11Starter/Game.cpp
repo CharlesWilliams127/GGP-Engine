@@ -94,6 +94,10 @@ void Game::Init()
 	// Create camera
 	camera = new Camera(XMFLOAT3(0, 0, -5), XMFLOAT3(0, 0, 1), viewMatrix);
 
+	// initialize mouse movement
+	prevMousePos.x = 0;
+	prevMousePos.y = 0;
+
 	// Tell the input assembler stage of the pipeline what kind of
 	// geometric primitives (points, lines or triangles) we want to draw.  
 	// Essentially: "What kind of shape should the GPU draw with our data?"
@@ -340,6 +344,8 @@ void Game::OnMouseUp(WPARAM buttonState, int x, int y)
 void Game::OnMouseMove(WPARAM buttonState, int x, int y)
 {
 	// Add any custom code here...
+	camera->RotateX(y - prevMousePos.y);
+	camera->RotateY(x - prevMousePos.x);
 
 	// Save the previous mouse position, so we have it for the future
 	prevMousePos.x = x;

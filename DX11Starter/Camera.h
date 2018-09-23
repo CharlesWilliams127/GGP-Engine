@@ -14,6 +14,10 @@ public:
 	DirectX::XMFLOAT4X4 GetProjectionMatrix();
 
 	void Update(float deltaTime);
+	void UpdateProjectionMatrix(float width, float height);
+
+	void RotateY(float amount);
+	void RotateX(float amount);
 private:
 	// Basics for setting up the camera
 	DirectX::XMFLOAT4X4 viewMatrix;
@@ -24,5 +28,7 @@ private:
 	DirectX::XMFLOAT3 camDir;
 	float xRot;
 	float yRot;
+
+	float rotScale;
 };
 
