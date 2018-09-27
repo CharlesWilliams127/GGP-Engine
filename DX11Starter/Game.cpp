@@ -180,37 +180,37 @@ void Game::CreateBasicGeometry()
 {
 	// Create some temporary variables to represent colors
 	// - Not necessary, just makes things more readable
-	XMFLOAT4 red = XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f);
+	/*XMFLOAT4 red = XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f);
 	XMFLOAT4 green = XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f);
-	XMFLOAT4 blue = XMFLOAT4(0.0f, 0.0f, 1.0f, 1.0f);
+	XMFLOAT4 blue = XMFLOAT4(0.0f, 0.0f, 1.0f, 1.0f);*/
 
 	// Create mesh index and vertex values
 	Vertex triVertices[] =
 	{
-		{ XMFLOAT3(+0.0f, +2.0f, +0.0f), red },
-	{ XMFLOAT3(+1.0f, +1.0f, +0.0f), blue },
-	{ XMFLOAT3(-1.0f, +1.0f, +0.0f), green },
+		{ XMFLOAT3(+0.0f, +2.0f, +0.0f), XMFLOAT3(+0.0f, +0.0f, -1.0f), XMFLOAT2(0, 0) },
+	{ XMFLOAT3(+1.0f, +1.0f, +0.0f), XMFLOAT3(+0.0f, +0.0f, -1.0f), XMFLOAT2(0, 0) },
+	{ XMFLOAT3(-1.0f, +1.0f, +0.0f), XMFLOAT3(+0.0f, +0.0f, -1.0f), XMFLOAT2(0, 0) },
 	};
 
 	unsigned int triIndices[] = { 0, 1, 2 };
 
 	Vertex squareVertices[] =
 	{
-		{ XMFLOAT3(-2.0f, +0.0f, +0.0f), red },
-	{ XMFLOAT3(-1.0f, +0.0f, +0.0f), blue },
-	{ XMFLOAT3(-1.0f, -1.0f, +0.0f), green },
-	{ XMFLOAT3(-2.0f, -1.0f, +0.0f), blue },
+		{ XMFLOAT3(-2.0f, +0.0f, +0.0f), XMFLOAT3(+0.0f, +0.0f, -1.0f), XMFLOAT2(0, 0) },
+	{ XMFLOAT3(-1.0f, +0.0f, +0.0f), XMFLOAT3(+0.0f, +0.0f, -1.0f), XMFLOAT2(0, 0) },
+	{ XMFLOAT3(-1.0f, -1.0f, +0.0f), XMFLOAT3(+0.0f, +0.0f, -1.0f), XMFLOAT2(0, 0) },
+	{ XMFLOAT3(-2.0f, -1.0f, +0.0f), XMFLOAT3(+0.0f, +0.0f, -1.0f), XMFLOAT2(0, 0) },
 	};
 
 	unsigned int squareIndices[] = {0, 1, 2, 0, 2, 3};
 
 	Vertex pentVertices[] =
 	{
-		{ XMFLOAT3(+1.0f, +0.35f, +0.0f), red },
-	{ XMFLOAT3(+2.0f, -0.25f, +0.0f), blue },
-	{ XMFLOAT3(+1.5f, -1.0f, +0.0f), green },
-	{ XMFLOAT3(+0.5f, -1.0f, +0.0f), blue },
-	{ XMFLOAT3(+0.0f, -0.25f, +0.0f), green },
+		{ XMFLOAT3(+1.0f, +0.35f, +0.0f), XMFLOAT3(+0.0f, +0.0f, -1.0f), XMFLOAT2(0, 0) },
+	{ XMFLOAT3(+2.0f, -0.25f, +0.0f), XMFLOAT3(+0.0f, +0.0f, -1.0f), XMFLOAT2(0, 0) },
+	{ XMFLOAT3(+1.5f, -1.0f, +0.0f), XMFLOAT3(+0.0f, +0.0f, -1.0f), XMFLOAT2(0, 0) },
+	{ XMFLOAT3(+0.5f, -1.0f, +0.0f), XMFLOAT3(+0.0f, +0.0f, -1.0f), XMFLOAT2(0, 0) },
+	{ XMFLOAT3(+0.0f, -0.25f, +0.0f), XMFLOAT3(+0.0f, +0.0f, -1.0f), XMFLOAT2(0, 0) },
 	};
 
 	unsigned int pentIndices[] = {0, 1, 2, 3, 0, 2, 3, 4, 0};

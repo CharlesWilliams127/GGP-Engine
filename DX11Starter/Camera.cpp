@@ -13,7 +13,7 @@ Camera::Camera(XMFLOAT3 _camPos, XMFLOAT3 _camDir, DirectX::XMFLOAT4X4 _viewMatr
 	camPos = _camPos;
 	camDir = _camDir;
 
-	rotScale = .001f;
+	rotScale = .002f;
 }
 
 Camera::~Camera()
