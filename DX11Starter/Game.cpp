@@ -29,6 +29,11 @@ Game::Game(HINSTANCE hInstance)
 	vertexShader = 0;
 	pixelShader = 0;
 
+	// Initialize lights
+	dirLight1.AmbientColor = XMFLOAT4(0.1, 0.1, 0.1, 1.0);
+	dirLight1.DiffuseColor = XMFLOAT4(0, 0, 1, 1);
+	dirLight1.Direction = XMFLOAT3(1, -1, 0);
+
 #if defined(DEBUG) || defined(_DEBUG)
 	// Do we want a console window?  Probably only in debug mode
 	CreateConsoleWindow(500, 120, 32, 120);
@@ -59,6 +64,11 @@ Game::~Game()
 	delete square;
 	delete pentagon;
 	delete cone;
+	delete cube;
+	delete sphere;
+	delete cylinder;
+	delete hexlis;
+	delete torus;
 
 	// Free entities
 	vector<Entity*>::iterator end = entities.end();
@@ -92,11 +102,11 @@ void Game::Init()
 	material = new Material(pixelShader, vertexShader);
 
 	// Create game entities
-	entities.push_back(new Entity(triangle, material, worldMatrix, XMFLOAT3(), XMFLOAT3(), XMFLOAT3()));
-	entities.push_back(new Entity(triangle, material, worldMatrix, XMFLOAT3(), XMFLOAT3(), XMFLOAT3()));
-	entities.push_back(new Entity(square, material, worldMatrix, XMFLOAT3(), XMFLOAT3(), XMFLOAT3()));
-	entities.push_back(new Entity(square, material, worldMatrix, XMFLOAT3(), XMFLOAT3(), XMFLOAT3()));
-	entities.push_back(new Entity(pentagon, material, worldMatrix, XMFLOAT3(), XMFLOAT3(), XMFLOAT3()));
+	//entities.push_back(new Entity(triangle, material, worldMatrix, XMFLOAT3(), XMFLOAT3(), XMFLOAT3()));
+	//entities.push_back(new Entity(triangle, material, worldMatrix, XMFLOAT3(), XMFLOAT3(), XMFLOAT3()));
+	//entities.push_back(new Entity(square, material, worldMatrix, XMFLOAT3(), XMFLOAT3(), XMFLOAT3()));
+	//entities.push_back(new Entity(square, material, worldMatrix, XMFLOAT3(), XMFLOAT3(), XMFLOAT3()));
+	//entities.push_back(new Entity(pentagon, material, worldMatrix, XMFLOAT3(), XMFLOAT3(), XMFLOAT3()));
 	entities.push_back(new Entity(cone, material, worldMatrix, XMFLOAT3(), XMFLOAT3(), XMFLOAT3()));
 
 	// Create camera
@@ -223,6 +233,11 @@ void Game::CreateBasicGeometry()
 	pentagon = new Mesh(pentVertices, 5, pentIndices, 9, device);
 	pentagon = new Mesh(pentVertices, 5, pentIndices, 9, device);
 	cone = new Mesh("../../DX11Starter/Assets/Models/cone.obj", device);
+	cube = new Mesh("../../DX11Starter/Assets/Models/cube.obj", device);
+	cylinder = new Mesh("../../DX11Starter/Assets/Models/cylinder.obj", device);
+	hexlis = new Mesh("../../DX11Starter/Assets/Models/hexlis.obj", device);
+	sphere = new Mesh("../../DX11Starter/Assets/Models/sphere.obj", device);
+	torus = new Mesh("../../DX11Starter/Assets/Models/torus.obj", device);
 }
 
 
@@ -245,11 +260,11 @@ void Game::OnResize()
 void Game::Update(float deltaTime, float totalTime)
 {
 	// Move all entities individually
-	entities[0]->Move(0.00005f, 0.00005f, 0, 0, 0, 0.5f * -totalTime);
-	entities[1]->Move(-0.00005f, 0.00005f, 0, 0, 0, 0);
-	entities[2]->Move(0.00005f, -0.00005f, 0, 0, 0, 0.25f * totalTime);
-	entities[3]->Move(-0.00005f, -0.00005f, 0, 0, 0, 0);
-	entities[4]->Move(0.00005f, 0.00005f, 0, 0, 0, 0.5f * totalTime);
+	//entities[0]->Move(0.00005f, 0.00005f, 0, 0, 0, 0.5f * -totalTime);
+	//entities[1]->Move(-0.00005f, 0.00005f, 0, 0, 0, 0);
+	//entities[2]->Move(0.00005f, -0.00005f, 0, 0, 0, 0.25f * totalTime);
+	//entities[3]->Move(-0.00005f, -0.00005f, 0, 0, 0, 0);
+	//entities[4]->Move(0.00005f, 0.00005f, 0, 0, 0, 0.5f * totalTime);
 
 	// Update camera
 	camera->Update(deltaTime);
@@ -280,6 +295,8 @@ void Game::Draw(float deltaTime, float totalTime)
 	int end = entities.size();
 	for (int i = 0; i < end; i++) 
 	{
+		pixelShader->SetData("dirLight1", &dirLight1, sizeof(DirectionalLight));
+
 		entities[i]->PrepareMaterial(camera->GetViewMatrix(), camera->GetProjectionMatrix());
 
 		entities[i]->Draw(context);

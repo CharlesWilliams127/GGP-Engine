@@ -5,6 +5,7 @@
 #include "Mesh.h"
 #include "Entity.h"
 #include "Camera.h"
+#include "Lights.h"
 #include <DirectXMath.h>
 
 class Game 
@@ -56,6 +57,11 @@ private:
 	Mesh * square;
 	Mesh * pentagon;
 	Mesh * cone;
+	Mesh * cube;
+	Mesh * cylinder;
+	Mesh * hexlis;
+	Mesh * sphere;
+	Mesh * torus;
 
 	// Vector to store various game entities
 	std::vector<Entity *> entities;
@@ -65,5 +71,8 @@ private:
 
 	// Material
 	Material * material;
+
+	// Lighting
+	DirectionalLight dirLight1;
 };
 
