@@ -58,6 +58,7 @@ Game::~Game()
 	delete triangle;
 	delete square;
 	delete pentagon;
+	delete cone;
 
 	// Free entities
 	vector<Entity*>::iterator end = entities.end();
@@ -96,6 +97,7 @@ void Game::Init()
 	entities.push_back(new Entity(square, material, worldMatrix, XMFLOAT3(), XMFLOAT3(), XMFLOAT3()));
 	entities.push_back(new Entity(square, material, worldMatrix, XMFLOAT3(), XMFLOAT3(), XMFLOAT3()));
 	entities.push_back(new Entity(pentagon, material, worldMatrix, XMFLOAT3(), XMFLOAT3(), XMFLOAT3()));
+	entities.push_back(new Entity(cone, material, worldMatrix, XMFLOAT3(), XMFLOAT3(), XMFLOAT3()));
 
 	// Create camera
 	camera = new Camera(XMFLOAT3(0, 0, -5), XMFLOAT3(0, 0, 1), viewMatrix);
@@ -219,6 +221,8 @@ void Game::CreateBasicGeometry()
 	triangle = new Mesh(triVertices, 3, triIndices, 3, device);
 	square = new Mesh(squareVertices, 4, squareIndices, 6, device);
 	pentagon = new Mesh(pentVertices, 5, pentIndices, 9, device);
+	pentagon = new Mesh(pentVertices, 5, pentIndices, 9, device);
+	cone = new Mesh("../../DX11Starter/Assets/Models/cone.obj", device);
 }
 
 

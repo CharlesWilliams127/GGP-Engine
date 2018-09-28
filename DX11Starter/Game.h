@@ -55,6 +55,7 @@ private:
 	Mesh * triangle;
 	Mesh * square;
 	Mesh * pentagon;
+	Mesh * cone;
 
 	// Vector to store various game entities
 	std::vector<Entity *> entities;
