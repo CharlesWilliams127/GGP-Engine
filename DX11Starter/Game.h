@@ -73,6 +73,6 @@ private:
 	Material * material;
 
 	// Lighting
-	DirectionalLight dirLight1;
+	DirectionalLight light;
 };
 

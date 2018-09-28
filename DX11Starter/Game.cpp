@@ -30,9 +30,9 @@ Game::Game(HINSTANCE hInstance)
 	pixelShader = 0;
 
 	// Initialize lights
-	dirLight1.AmbientColor = XMFLOAT4(0.1, 0.1, 0.1, 1.0);
-	dirLight1.DiffuseColor = XMFLOAT4(0, 0, 1, 1);
-	dirLight1.Direction = XMFLOAT3(1, -1, 0);
+	light.AmbientColor = XMFLOAT4(0.1, 0.1, 0.1, 1.0);
+	light.DiffuseColor = XMFLOAT4(0, 0, 1, 1);
+	light.Direction = XMFLOAT3(1, -1, 0);
 
 #if defined(DEBUG) || defined(_DEBUG)
 	// Do we want a console window?  Probably only in debug mode
@@ -295,7 +295,7 @@ void Game::Draw(float deltaTime, float totalTime)
 	int end = entities.size();
 	for (int i = 0; i < end; i++) 
 	{
-		pixelShader->SetData("dirLight1", &dirLight1, sizeof(DirectionalLight));
+		pixelShader->SetData("light", &light, sizeof(DirectionalLight));
 
 		entities[i]->PrepareMaterial(camera->GetViewMatrix(), camera->GetProjectionMatrix());
 
