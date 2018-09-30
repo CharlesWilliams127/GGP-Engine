@@ -38,13 +38,9 @@ struct VertexToPixel
 // --------------------------------------------------------
 float4 main(VertexToPixel input) : SV_TARGET
 {
-	// Just return the input color
-	// - This color (like most values passing through the rasterizer) is 
-	//   interpolated for each pixel between the corresponding vertices 
-	//   of the triangle we're rendering
-	//return float4(input.normal, 1);
-	float3 normalDir = -light.Direction.normal;
-	// TODO: from second bullet in HW
+	// Calculate lighting direction based on values from the vertex shader and cbuffer
+	float3 normalDir = normalize(-light.Direction);
+	float3 lightAmount = saturate(dot(input.normal, normalDir));
 
-	return light.DiffuseColor;
+	return mul(light.DiffuseColor, lightAmount) + light.AmbientColor;
 }

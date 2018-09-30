@@ -29,11 +29,6 @@ Game::Game(HINSTANCE hInstance)
 	vertexShader = 0;
 	pixelShader = 0;
 
-	// Initialize lights
-	light.AmbientColor = XMFLOAT4(0.1, 0.1, 0.1, 1.0);
-	light.DiffuseColor = XMFLOAT4(0, 0, 1, 1);
-	light.Direction = XMFLOAT3(1, -1, 0);
-
 #if defined(DEBUG) || defined(_DEBUG)
 	// Do we want a console window?  Probably only in debug mode
 	CreateConsoleWindow(500, 120, 32, 120);
@@ -102,22 +97,22 @@ void Game::Init()
 	material = new Material(pixelShader, vertexShader);
 
 	// Create game entities
-	//entities.push_back(new Entity(triangle, material, worldMatrix, XMFLOAT3(), XMFLOAT3(), XMFLOAT3()));
-	//entities.push_back(new Entity(triangle, material, worldMatrix, XMFLOAT3(), XMFLOAT3(), XMFLOAT3()));
-	//entities.push_back(new Entity(square, material, worldMatrix, XMFLOAT3(), XMFLOAT3(), XMFLOAT3()));
-	//entities.push_back(new Entity(square, material, worldMatrix, XMFLOAT3(), XMFLOAT3(), XMFLOAT3()));
-	//entities.push_back(new Entity(pentagon, material, worldMatrix, XMFLOAT3(), XMFLOAT3(), XMFLOAT3()));
 	entities.push_back(new Entity(cone, material, worldMatrix, XMFLOAT3(), XMFLOAT3(), XMFLOAT3()));
 
 	// Create camera
 	camera = new Camera(XMFLOAT3(0, 0, -5), XMFLOAT3(0, 0, 1), viewMatrix);
 
 	// Set up initial projection matrix
-	camera->UpdateProjectionMatrix(width, height);
+	camera->UpdateProjectionMatrix((float)width, (float)height);
 
 	// initialize mouse movement
 	prevMousePos.x = width / 2;
 	prevMousePos.y = height / 2;
+
+	// Initialize lights
+	light.AmbientColor = XMFLOAT4(0.1f, 0.1f, 0.1f, 1.0f);
+	light.DiffuseColor = XMFLOAT4(0.0f, 0.0f, 1.0f, 1.0f);
+	light.Direction = XMFLOAT3(1.0f, -1.0f, 0.0f);
 
 	// Tell the input assembler stage of the pipeline what kind of
 	// geometric primitives (points, lines or triangles) we want to draw.  
@@ -251,7 +246,7 @@ void Game::OnResize()
 	DXCore::OnResize();
 
 	// Update our projection matrix since the window size changed
-	camera->UpdateProjectionMatrix(width, height);
+	camera->UpdateProjectionMatrix((float)width, (float)height);
 }
 
 // --------------------------------------------------------
@@ -292,7 +287,7 @@ void Game::Draw(float deltaTime, float totalTime)
 		1.0f,
 		0);
 
-	int end = entities.size();
+	size_t end = entities.size();
 	for (int i = 0; i < end; i++) 
 	{
 		pixelShader->SetData("light", &light, sizeof(DirectionalLight));
@@ -350,8 +345,8 @@ void Game::OnMouseUp(WPARAM buttonState, int x, int y)
 void Game::OnMouseMove(WPARAM buttonState, int x, int y)
 {
 	// Add any custom code here...
-	camera->RotateX(y - prevMousePos.y);
-	camera->RotateY(x - prevMousePos.x);
+	camera->RotateX((float)(y - prevMousePos.y));
+	camera->RotateY((float)(x - prevMousePos.x));
 
 	// Save the previous mouse position, so we have it for the future
 	prevMousePos.x = x;
