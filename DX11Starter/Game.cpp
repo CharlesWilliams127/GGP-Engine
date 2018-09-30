@@ -114,6 +114,10 @@ void Game::Init()
 	light.DiffuseColor = XMFLOAT4(0.0f, 0.0f, 1.0f, 1.0f);
 	light.Direction = XMFLOAT3(1.0f, -1.0f, 0.0f);
 
+	light2.AmbientColor = XMFLOAT4(0.7f, 0.1f, 0.1f, 1.0f);
+	light2.DiffuseColor = XMFLOAT4(0.7f, 0.1f, 0.1f, 1.0f);
+	light.Direction = XMFLOAT3(-1.0f, -3.0f, 0.0f);
+
 	// Tell the input assembler stage of the pipeline what kind of
 	// geometric primitives (points, lines or triangles) we want to draw.  
 	// Essentially: "What kind of shape should the GPU draw with our data?"
@@ -290,7 +294,8 @@ void Game::Draw(float deltaTime, float totalTime)
 	size_t end = entities.size();
 	for (int i = 0; i < end; i++) 
 	{
-		pixelShader->SetData("light", &light, sizeof(DirectionalLight));
+		pixelShader->SetData("light1", &light, sizeof(DirectionalLight));
+		pixelShader->SetData("light2", &light2, sizeof(DirectionalLight));
 
 		entities[i]->PrepareMaterial(camera->GetViewMatrix(), camera->GetProjectionMatrix());
 

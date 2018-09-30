@@ -8,7 +8,8 @@ struct DirectionalLight
 
 cbuffer lightBuffer : register(b0)
 {
-	DirectionalLight light;
+	DirectionalLight light1;
+	DirectionalLight light2;
 };
 
 // Struct representing the data we expect to receive from earlier pipeline stages
@@ -27,6 +28,14 @@ struct VertexToPixel
 	float3 normal		: NORMAL;
 };
 
+float4 calculateLight(DirectionalLight light, VertexToPixel input)
+{
+	float3 normalDir = normalize(-light.Direction);
+	float3 lightAmount = saturate(dot(input.normal, normalDir));
+
+	return mul(light.DiffuseColor, lightAmount) + light.AmbientColor;
+}
+
 // --------------------------------------------------------
 // The entry point (main method) for our pixel shader
 // 
@@ -39,8 +48,5 @@ struct VertexToPixel
 float4 main(VertexToPixel input) : SV_TARGET
 {
 	// Calculate lighting direction based on values from the vertex shader and cbuffer
-	float3 normalDir = normalize(-light.Direction);
-	float3 lightAmount = saturate(dot(input.normal, normalDir));
-
-	return mul(light.DiffuseColor, lightAmount) + light.AmbientColor;
+	return calculateLight(light1, input) + calculateLight(light2, input);
 }

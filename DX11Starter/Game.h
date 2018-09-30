@@ -74,5 +74,6 @@ private:
 
 	// Lighting
 	DirectionalLight light;
+	DirectionalLight light2;
 };
 
