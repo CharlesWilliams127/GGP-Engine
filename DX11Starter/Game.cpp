@@ -98,6 +98,18 @@ void Game::Init()
 
 	// Create game entities
 	entities.push_back(new Entity(cone, material, worldMatrix, XMFLOAT3(), XMFLOAT3(), XMFLOAT3()));
+	entities[0]->Move(1.0f, 1.0f, 0, 0, 0, 0);
+
+	entities.push_back(new Entity(cube, material, worldMatrix, XMFLOAT3(), XMFLOAT3(), XMFLOAT3()));
+	entities[1]->Move(-1.0f, -1.0f, 0, 0, 2.345f, 0);
+
+	entities.push_back(new Entity(cylinder, material, worldMatrix, XMFLOAT3(), XMFLOAT3(), XMFLOAT3()));
+	entities[2]->Move(-1.0f, -1.0f, 0, 0, 0, 0);
+
+	entities.push_back(new Entity(torus, material, worldMatrix, XMFLOAT3(), XMFLOAT3(), XMFLOAT3()));
+	entities[3]->Move(-1.0f, 1.0f, 0, 0, 0, 0);
+
+	entities.push_back(new Entity(sphere, material, worldMatrix, XMFLOAT3(), XMFLOAT3(), XMFLOAT3()));
 
 	// Create camera
 	camera = new Camera(XMFLOAT3(0, 0, -5), XMFLOAT3(0, 0, 1), viewMatrix);
@@ -114,9 +126,9 @@ void Game::Init()
 	light.DiffuseColor = XMFLOAT4(0.0f, 0.0f, 1.0f, 1.0f);
 	light.Direction = XMFLOAT3(1.0f, -1.0f, 0.0f);
 
-	light2.AmbientColor = XMFLOAT4(0.7f, 0.1f, 0.1f, 1.0f);
-	light2.DiffuseColor = XMFLOAT4(0.7f, 0.1f, 0.1f, 1.0f);
-	light.Direction = XMFLOAT3(-1.0f, -3.0f, 0.0f);
+	light2.AmbientColor = XMFLOAT4(0.1f, 0.1f, 0.1f, 1.0f);
+	light2.DiffuseColor = XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f);
+	light.Direction = XMFLOAT3(-1.0f, 1.0f, 0.0f);
 
 	// Tell the input assembler stage of the pipeline what kind of
 	// geometric primitives (points, lines or triangles) we want to draw.  

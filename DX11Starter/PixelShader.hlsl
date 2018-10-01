@@ -31,7 +31,7 @@ struct VertexToPixel
 float4 calculateLight(DirectionalLight light, VertexToPixel input)
 {
 	float3 normalDir = normalize(-light.Direction);
-	float3 lightAmount = saturate(dot(input.normal, normalDir));
+	float lightAmount = saturate(dot(normalize(input.normal), normalDir));
 
 	return mul(light.DiffuseColor, lightAmount) + light.AmbientColor;
 }
