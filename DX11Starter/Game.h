@@ -71,14 +71,16 @@ private:
 	Camera * camera;
 
 	// Material
-	Material * material;
+	Material * woodMaterial;
+	Material * stoneMaterial;
 
 	// Lighting
 	DirectionalLight light;
 	DirectionalLight light2;
 
 	// Shader resource view for texturing
-	ID3D11ShaderResourceView * shaderResourceView;
+	ID3D11ShaderResourceView * shaderResourceView1;
+	ID3D11ShaderResourceView * shaderResourceView2;
 
 	// Samplers for texturing
 	ID3D11SamplerState * samplerState;

@@ -77,7 +77,8 @@ Game::~Game()
 	delete camera;
 
 	// Free material
-	delete material;
+	delete woodMaterial;
+	delete stoneMaterial;
 }
 
 // --------------------------------------------------------
@@ -101,28 +102,30 @@ void Game::Init()
 	samplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
 	samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
 
-	HRESULT val0 = device->CreateSamplerState(&samplerDesc, &samplerState);
+	device->CreateSamplerState(&samplerDesc, &samplerState);
 
 	// Create Textures
-	HRESULT val = CreateWICTextureFromFile(device, context, L"../../DX11Starter/Assets/Textures/WoodPlanks.tif", 0, &shaderResourceView);
+	CreateWICTextureFromFile(device, context, L"../../DX11Starter/Assets/Textures/WoodPlanks.tif", 0, &shaderResourceView1);
+	CreateWICTextureFromFile(device, context, L"../../DX11Starter/Assets/Textures/MossyBricks.jpg", 0, &shaderResourceView2);
 
 	// Create material
-	material = new Material(pixelShader, vertexShader, shaderResourceView, samplerState);
+	woodMaterial = new Material(pixelShader, vertexShader, shaderResourceView1, samplerState);
+	stoneMaterial = new Material(pixelShader, vertexShader, shaderResourceView2, samplerState);
 
 	// Create game entities
-	entities.push_back(new Entity(cone, material, worldMatrix, XMFLOAT3(), XMFLOAT3(), XMFLOAT3()));
+	entities.push_back(new Entity(cone, woodMaterial, worldMatrix, XMFLOAT3(), XMFLOAT3(), XMFLOAT3()));
 	entities[0]->Move(1.0f, 1.0f, 0, 0, 0, 0);
 
-	entities.push_back(new Entity(cube, material, worldMatrix, XMFLOAT3(), XMFLOAT3(), XMFLOAT3()));
+	entities.push_back(new Entity(cube, woodMaterial, worldMatrix, XMFLOAT3(), XMFLOAT3(), XMFLOAT3()));
 	entities[1]->Move(-1.0f, -1.0f, 0, 0, 2.345f, 0);
 
-	entities.push_back(new Entity(cylinder, material, worldMatrix, XMFLOAT3(), XMFLOAT3(), XMFLOAT3()));
+	entities.push_back(new Entity(cylinder, woodMaterial, worldMatrix, XMFLOAT3(), XMFLOAT3(), XMFLOAT3()));
 	entities[2]->Move(-1.0f, -1.0f, 0, 0, 0, 0);
 
-	entities.push_back(new Entity(torus, material, worldMatrix, XMFLOAT3(), XMFLOAT3(), XMFLOAT3()));
+	entities.push_back(new Entity(torus, woodMaterial, worldMatrix, XMFLOAT3(), XMFLOAT3(), XMFLOAT3()));
 	entities[3]->Move(-1.0f, 1.0f, 0, 0, 0, 0);
 
-	entities.push_back(new Entity(sphere, material, worldMatrix, XMFLOAT3(), XMFLOAT3(), XMFLOAT3()));
+	entities.push_back(new Entity(sphere, stoneMaterial, worldMatrix, XMFLOAT3(), XMFLOAT3(), XMFLOAT3()));
 
 	// Create camera
 	camera = new Camera(XMFLOAT3(0, 0, -5), XMFLOAT3(0, 0, 1), viewMatrix);
