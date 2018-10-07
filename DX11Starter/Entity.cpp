@@ -117,6 +117,8 @@ void Entity::PrepareMaterial(XMFLOAT4X4 viewMatrix, XMFLOAT4X4 projectionMatrix)
 	material->GetVertexShader()->SetMatrix4x4("world", worldMatrix);
 	material->GetVertexShader()->SetMatrix4x4("view", viewMatrix);
 	material->GetVertexShader()->SetMatrix4x4("projection", projectionMatrix);
+	material->GetPixelShader()->SetShaderResourceView("diffuseTexture", material->getShaderResourceView());
+	material->GetPixelShader()->SetSamplerState("basicSampler", material->getSamplerState());
 
 	// Once you've set all of the data you care to change for
 	// the next draw call, you need to actually send it to the GPU

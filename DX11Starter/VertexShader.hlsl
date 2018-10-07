@@ -43,6 +43,7 @@ struct VertexToPixel
 	//  v    v                v
 	float4 position		: SV_POSITION;	// XYZW position (System Value Position)
 	float3 normal		: NORMAL;
+	float2 uv			: TEXCOORD;
 };
 
 // --------------------------------------------------------
@@ -75,6 +76,9 @@ VertexToPixel main( VertexShaderInput input )
 
 	// Assign output normal
 	output.normal = mul(input.normal, (float3x3)world);
+
+	// Assign output UV
+	output.uv = input.uv;
 
 	// Pass the color through 
 	// - The values will be interpolated per-pixel by the rasterizer

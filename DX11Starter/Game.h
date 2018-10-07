@@ -6,6 +6,7 @@
 #include "Entity.h"
 #include "Camera.h"
 #include "Lights.h"
+#include "WICTextureLoader.h"
 #include <DirectXMath.h>
 
 class Game 
@@ -75,5 +76,12 @@ private:
 	// Lighting
 	DirectionalLight light;
 	DirectionalLight light2;
+
+	// Shader resource view for texturing
+	ID3D11ShaderResourceView * shaderResourceView;
+
+	// Samplers for texturing
+	ID3D11SamplerState * samplerState;
+	D3D11_SAMPLER_DESC samplerDesc;
 };
 

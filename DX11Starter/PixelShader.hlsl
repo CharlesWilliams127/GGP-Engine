@@ -1,3 +1,5 @@
+Texture2D diffuseTexture  : register(t0);
+SamplerState basicSampler : register(s0);
 
 struct DirectionalLight
 {
@@ -26,6 +28,7 @@ struct VertexToPixel
 	//  v    v                v
 	float4 position		: SV_POSITION;
 	float3 normal		: NORMAL;
+	float2 uv			: TEXCOORD;
 };
 
 float4 calculateLight(DirectionalLight light, VertexToPixel input)
@@ -47,6 +50,9 @@ float4 calculateLight(DirectionalLight light, VertexToPixel input)
 // --------------------------------------------------------
 float4 main(VertexToPixel input) : SV_TARGET
 {
+	// Calculate surface color of textures
+	float4 surfaceColor = diffuseTexture.Sample(basicSampler, input.uv);
+
 	// Calculate lighting direction based on values from the vertex shader and cbuffer
-	return calculateLight(light1, input) + calculateLight(light2, input);
+	return float4((surfaceColor.rgb * calculateLight(light1, input)) + (surfaceColor.rgb * calculateLight(light2, input)), 1);
 }

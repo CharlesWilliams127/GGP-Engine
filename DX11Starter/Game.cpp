@@ -93,8 +93,21 @@ void Game::Init()
 	CreateMatrices();
 	CreateBasicGeometry();
 
+	// Zero out sampler description
+	samplerDesc = {};
+	samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+	samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+	samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+	samplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+	samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
+
+	HRESULT val0 = device->CreateSamplerState(&samplerDesc, &samplerState);
+
+	// Create Textures
+	HRESULT val = CreateWICTextureFromFile(device, context, L"../../DX11Starter/Assets/Textures/WoodPlanks.tif", 0, &shaderResourceView);
+
 	// Create material
-	material = new Material(pixelShader, vertexShader);
+	material = new Material(pixelShader, vertexShader, shaderResourceView, samplerState);
 
 	// Create game entities
 	entities.push_back(new Entity(cone, material, worldMatrix, XMFLOAT3(), XMFLOAT3(), XMFLOAT3()));
